@@ -65,7 +65,7 @@ def main():
 
             # And try out all different approaches. Note that we have done some optimization
             # of the parameter values for each of the approaches by visual inspection.
-            dataset = OutlierDistr.chauvenet(dataset, col)
+            dataset = OutlierDistr.chauvenet(dataset, col, c=FLAGS.c)
             DataViz.plot_binary_outliers(
                 dataset, col, col + '_outlier')
 
@@ -130,7 +130,7 @@ if __name__ == '__main__':
                         'chauvenet' applies Chauvenet outlier detection method to a single variable \
                         'final' is used for the next chapter", choices=['LOF', 'distance', 'mixture', 'chauvenet', 'final'])
 
-   
+    parser.add_argument('--c', type=float, default=2, help='Chauvenet c hyperparameter')
    
     parser.add_argument('--K', type=int, default=5,
                         help="Local Outlier Factor:  K is the number of neighboring points considered")
