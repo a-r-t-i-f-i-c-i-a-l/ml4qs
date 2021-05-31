@@ -74,11 +74,11 @@ def main():
         for col in outlier_columns:
 
             print(f"Applying mixture model for column {col}")
-            dataset = OutlierDistr.mixture_model(dataset, col)
-            DataViz.plot_dataset(dataset, [
-                                 col, col + '_mixture'], ['exact', 'exact'], ['line', 'points'],
+            dataset = OutlierDistr.mixture_model(dataset, col,
                                  n_comp=FLAGS.n_components, max_iter=FLAGS.max_iter,
                                  n_init=FLAGS.n_init)
+            DataViz.plot_dataset(dataset, [
+                                 col, col + '_mixture'], ['exact', 'exact'], ['line', 'points'])
             # This requires:
             # n_data_points * n_data_points * point_size =
             # 31839 * 31839 * 32 bits = ~4GB available memory
