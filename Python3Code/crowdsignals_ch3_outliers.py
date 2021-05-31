@@ -144,10 +144,10 @@ if __name__ == '__main__':
                         
     parser.add_argument('--n_init', type=int, default=1,
                         help="Mixture models n_init parameter")
-    parser.add_argument('--dmin', type=int, default=0.10,
+    parser.add_argument('--dmin', type=float, default=0.10,
                         help="Simple distance based:  dmin is ... ")
 
-    parser.add_argument('--fmin', type=int, default=0.99,
+    parser.add_argument('--fmin', type=float, default=0.99,
                         help="Simple distance based:  fmin is ... ")
 
 
