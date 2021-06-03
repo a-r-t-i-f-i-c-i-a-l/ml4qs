@@ -33,10 +33,10 @@ class VisualizeDataset:
         self.figures_dir.mkdir(exist_ok=True, parents=True)
 
 
-    def save(self, plot_obj, formats=('png',)): # 'svg'
-
-        fig_name = f'figure_{self.plot_number}'
-
+    def save(self, plot_obj, formats=('png',), appendix=''): # 'svg'
+        
+        fig_name = f'figure_{self.plot_number}' + ('_' + appendix if appendix != '' else '')
+        print('using fig_name: ', fig_name)
         for format in formats:
             save_path = self.figures_dir / f'{fig_name}.{format}'
             plot_obj.savefig(save_path)
@@ -48,7 +48,8 @@ class VisualizeDataset:
     # among multiple attributes (e.g. label which occurs as labelWalking, etc). In such a case they are plotted
     # in the same graph. The display should express whether points or a line should be plotted.
     # Match can be 'exact' or 'like'. Display can be 'points' or 'line'.
-    def plot_dataset(self, data_table, columns, match='like', display='line'):
+    # append_name - name appended to the output file name
+    def plot_dataset(self, data_table, columns, match='like', display='line', append_name=''):
         names = list(data_table.columns)
 
         # Create subplots if more columns are specified.
@@ -108,7 +109,8 @@ class VisualizeDataset:
         # Make sure we get a nice figure with only a single x-axis and labels there.
         plt.setp([a.get_xticklabels() for a in f.axes[:-1]], visible=False)
         plt.xlabel('time')
-        self.save(plt)
+        print('passing append_name = ', append_name)
+        self.save(plt, appendix=append_name)
         plt.show()
 
     def plot_xy(self, x, y, method='plot', xlabel=None, ylabel=None, xlim=None, ylim=None, names=None,

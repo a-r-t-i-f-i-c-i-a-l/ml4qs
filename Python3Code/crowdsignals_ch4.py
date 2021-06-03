@@ -22,7 +22,7 @@ from Chapter4.TextAbstraction import TextAbstraction
 
 # Read the result from the previous chapter, and make sure the index is of the type datetime.
 DATA_PATH = Path('./intermediate_datafiles/')
-DATASET_FNAME = 'chapter3_result_final.csv'
+DATASET_FNAME = 'chapter3_result_outliers.csv'
 RESULT_FNAME = 'chapter4_result.csv'
 
 def print_flags():
@@ -49,7 +49,7 @@ def main():
 
     # Let us create our visualization class again.
     DataViz = VisualizeDataset(__file__)
-
+    
     # Compute the number of milliseconds covered by an instance based on the first two rows
     milliseconds_per_instance = (dataset.index[1] - dataset.index[0]).microseconds/1000
 
@@ -68,8 +68,9 @@ def main():
                    
             dataset = NumAbs.abstract_numerical(dataset, ['acc_phone_x'], ws, 'mean')
             dataset = NumAbs.abstract_numerical(dataset, ['acc_phone_x'], ws, 'std')
-
-        DataViz.plot_dataset(dataset, ['acc_phone_x', 'acc_phone_x_temp_mean', 'acc_phone_x_temp_std', 'label'], ['exact', 'like', 'like', 'like'], ['line', 'line', 'line', 'points'])
+      
+        DataViz.plot_dataset(dataset, ['acc_phone_x', 'acc_phone_x_temp_mean', 'acc_phone_x_temp_std', 'label'], ['exact', 'like', 'like', 'like'], ['line', 'line', 'line', 'points'],
+          append_name=FLAGS.plotname)
         print("--- %s seconds ---" % (time.time() - start_time))
   
     if FLAGS.mode == 'frequency':
@@ -77,9 +78,11 @@ def main():
        
         fs = float(1000)/milliseconds_per_instance
         ws = int(float(10000)/milliseconds_per_instance)
+        
         dataset = FreqAbs.abstract_frequency(dataset, ['acc_phone_x'], ws, fs)
         # Spectral analysis.
-        DataViz.plot_dataset(dataset, ['acc_phone_x_max_freq', 'acc_phone_x_freq_weighted', 'acc_phone_x_pse', 'label'], ['like', 'like', 'like', 'like'], ['line', 'line', 'line','points'])
+        DataViz.plot_dataset(dataset, ['acc_phone_x_max_freq', 'acc_phone_x_freq_weighted', 'acc_phone_x_pse', 'label'], ['like', 'like', 'like', 'like'], ['line', 'line', 'line','points'],
+          append_name=FLAGS.plotname)
         print("--- %s seconds ---" % (time.time() - start_time))
   
     if FLAGS.mode == 'final':
@@ -136,7 +139,8 @@ if __name__ == '__main__':
                         'final' is used for the next chapter ", choices=['aggregation', 'frequency', 'final']) 
 
     
-
+    parser.add_argument('--plotname', type=str, default='',
+                        help='Name appended to the plotted figure.')
     FLAGS, unparsed = parser.parse_known_args()
     
     main()
