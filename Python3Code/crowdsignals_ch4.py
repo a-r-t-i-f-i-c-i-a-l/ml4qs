@@ -66,10 +66,10 @@ def main():
         
         for ws in window_sizes:
                    
-            dataset = NumAbs.abstract_numerical(dataset, ['acc_phone_x'], ws, 'mean')
-            dataset = NumAbs.abstract_numerical(dataset, ['acc_phone_x'], ws, 'std')
+            dataset = NumAbs.abstract_numerical(dataset, [FLAGS.aggregatevariable], ws, 'mean')
+            dataset = NumAbs.abstract_numerical(dataset, [FLAGS.aggregatevariable], ws, 'std')
       
-        DataViz.plot_dataset(dataset, ['acc_phone_x', 'acc_phone_x_temp_mean', 'acc_phone_x_temp_std', 'label'], ['exact', 'like', 'like', 'like'], ['line', 'line', 'line', 'points'],
+        DataViz.plot_dataset(dataset, [FLAGS.aggregatevariable, FLAGS.aggregatevariable + '_temp_mean', FLAGS.aggregatevariable + '_temp_std', 'label'], ['exact', 'like', 'like', 'like'], ['line', 'line', 'line', 'points'],
           append_name=FLAGS.plotname)
         print("--- %s seconds ---" % (time.time() - start_time))
   
@@ -79,9 +79,10 @@ def main():
         fs = float(1000)/milliseconds_per_instance
         ws = int(float(10000)/milliseconds_per_instance)
         
-        dataset = FreqAbs.abstract_frequency(dataset, ['acc_phone_x'], ws, fs)
+        dataset = FreqAbs.abstract_frequency(dataset, FLAGS.usevariables, ws, fs)
         # Spectral analysis.
-        DataViz.plot_dataset(dataset, ['acc_phone_x_max_freq', 'acc_phone_x_freq_weighted', 'acc_phone_x_pse', 'label'], ['like', 'like', 'like', 'like'], ['line', 'line', 'line','points'],
+        DataViz.plot_dataset(dataset, FLAGS.plotvariables + ['label'], 
+          (len(FLAGS.plotvariables) + 1)*['like'], len(FLAGS.plotvariables)*['line'] +['points'],
           append_name=FLAGS.plotname)
         print("--- %s seconds ---" % (time.time() - start_time))
   
@@ -141,6 +142,13 @@ if __name__ == '__main__':
     
     parser.add_argument('--plotname', type=str, default='',
                         help='Name appended to the plotted figure.')
+
+    parser.add_argument('--plotvariables', type=str, nargs='+', default=['acc_phone_x_max_freq', 'acc_phone_x_freq_weighted', 'acc_phone_x_pse'],
+                        help='Which variables to plot' )
+    parser.add_argument('--usevariables', type=str, nargs='+', default=['acc_phone_x'],
+                        help='Which variables to use in analysis')
+    parser.add_argument('--aggregatevariable', type=str, default='acc_phone_x',
+                        help='Name of variable to aggregate.')
     FLAGS, unparsed = parser.parse_known_args()
     
     main()
