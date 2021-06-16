@@ -1,4 +1,7 @@
 *.pyc
 datasets
-PythonCode/intermediate_datafiles/
 PythonCode/Example_graphs/
+.idea
+custom_dataset_processing
+intermediate_datafiles
+figures
