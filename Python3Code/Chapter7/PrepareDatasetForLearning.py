@@ -44,10 +44,10 @@ class PrepareDatasetForLearning:
         dataset = dataset.drop(labels, axis=1)
         return dataset
 
-    # Split a dataset of a single person for a classificaiton problem with the the specified class columns class_labels.
+    # Split a dataset of a single person for a classification problem with the the specified class columns class_labels.
     # We can have multiple targets if we want. It assumes a list in 'class_labels'
     # If 'like' is specified in matching, we will merge the columns that contain the class_labels into a single
-    # columns. We can select a filter for rows where we are unable to identifty a unique
+    # columns. We can select a filter for rows where we are unable to identify a unique
     # class and we can select whether we have a temporal dataset or not. In the former, we will select the first
     # training_frac of the data for training and the last 1-training_frac for testing. Otherwise, we select points randomly.
     # We return a training set, the labels of the training set, and the same for a test set. We can set the random seed

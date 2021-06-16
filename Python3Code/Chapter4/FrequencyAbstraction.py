@@ -75,17 +75,21 @@ class FourierTransformation:
             data_table[col].rolling(window_size + 1).apply(self.find_fft_transformation)
 
             # Pad the missing rows with nans
+<<<<<<< Updated upstream
             frequencies = np.pad(np.array(self.temp_list), ((40, 0), (0, 0)), 'constant', constant_values=np.nan)
             # Padding for phyphox data:
             # frequencies = np.pad(np.array(self.temp_list), ((50, 0), (0, 0)), 'constant', constant_values=np.nan)
             
+=======
+            frequencies = np.pad(np.array(self.temp_list), ((50, 0), (0, 0)),
+                        'constant', constant_values=np.nan)
+>>>>>>> Stashed changes
             # add new freq columns to frame
-            
             data_table[collist] = pd.DataFrame(frequencies, index=data_table.index)
 
             # reset temp-storage array
             del self.temp_list[:]
             
 
-        
+
         return data_table
