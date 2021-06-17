@@ -76,6 +76,7 @@ def encode_categoricals(df, method='one hot'):
 
 
 def delete_outliers(df, c=2):
+    # Using Chauvenet method (others make memory go boom)
     print("Deleting outliers...")
     for col in [c for c in df.columns if not 'label' in c]:
         # Computer the mean and standard deviation.
@@ -104,6 +105,7 @@ def impute_missing_values(df):
     print("Imputing missing values...")
     for col in [c for c in df.columns if not 'label' in c]:
         df[col] = df[col].interpolate()
+        # Fill the initial data points if needed:
         df[col] = df[col].fillna(method='bfill')
     return df
 
