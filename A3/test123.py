@@ -22,6 +22,14 @@ y = data_valid['label_activity']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
 
+# TODO: edit granularity df = df.iloc[::5]
+
+# TODO: work out outliers (ch3 stuff)
+
+# TODO: Add aggregation methods
+
+# TODO: the ch5 stuff maybe?
+
 model = xgb.XGBClassifier(tree_method='gpu_hist', gpu_id=0)
 print('Model loaded')
 train_model = model.fit(X_train, y_train)
